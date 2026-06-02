@@ -111,6 +111,11 @@ describe("encoding", () => {
     expect(r.headers.get("content-encoding")).toBe("br");
   });
 
+  it("encoded responses set cache-control: no-transform", async () => {
+    const r = await SELF.fetch(`${BASE}/gzip`);
+    expect(r.headers.get("cache-control")).toBe("no-transform");
+  });
+
   it("bad-gzip advertises gzip", async () => {
     const r = await SELF.fetch(`${BASE}/bad-gzip`);
     expect(r.headers.get("content-encoding")).toBe("gzip");
