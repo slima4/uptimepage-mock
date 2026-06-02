@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "uptimepage-mock",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-01",
+  "observability": { "enabled": true },
+  // Deploys to the free *.workers.dev URL by default.
+  "workers_dev": true
+  // Custom domain — uncomment once mock.uptimepage.dev is a Cloudflare-managed
+  // zone on the deploy account (see README deploy prerequisites). Leaving it
+  // active before the zone exists makes every deploy fail.
+  // "routes": [{ "pattern": "mock.uptimepage.dev", "custom_domain": true }]
+}

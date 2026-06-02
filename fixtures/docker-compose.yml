@@ -1,0 +1,29 @@
+# Protocol-level fixtures the HTTP Worker cannot serve. Run on a host with a
+# public IP and inbound 443 (TLS), 53 (DNS), and 9001 (TCP).
+services:
+  tls:
+    build: ./tls
+    environment:
+      EXPIRING_DAYS: "10" # within a typical warn(30)/critical(7) window -> Degraded
+    ports:
+      - "443:443"
+    restart: unless-stopped
+
+  dns:
+    image: coredns/coredns:latest
+    command: -conf /etc/coredns/Corefile
+    volumes:
+      - ./dns/Corefile:/etc/coredns/Corefile:ro
+      - ./dns/db.zone:/etc/coredns/db.zone:ro
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    restart: unless-stopped
+
+  # Open echo port -> TCP connect Up. Any other unbound port -> connection refused.
+  tcp:
+    image: alpine/socat
+    command: TCP-LISTEN:9001,fork,reuseaddr SYSTEM:cat
+    ports:
+      - "9001:9001"
+    restart: unless-stopped

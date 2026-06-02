@@ -1,0 +1,25 @@
+; Authoritative zone for dns.mock.uptimepage.dev.
+; Addresses use TEST-NET / documentation ranges (RFC 5737 / RFC 3849).
+; Any name not listed here resolves to NXDOMAIN.
+$ORIGIN dns.mock.uptimepage.dev.
+$TTL 60
+
+@   IN SOA ns.dns.mock.uptimepage.dev. admin.dns.mock.uptimepage.dev. (
+        2026060201 ; serial
+        7200       ; refresh
+        3600       ; retry
+        1209600    ; expire
+        60 )       ; minimum
+@   IN NS  ns.dns.mock.uptimepage.dev.
+
+ns    IN A    192.0.2.2
+
+@     IN A    192.0.2.10
+@     IN AAAA 2001:db8::10
+@     IN MX   10 mail.dns.mock.uptimepage.dev.
+@     IN TXT  "uptimepage-mock dns ok"
+
+www   IN A    192.0.2.11
+www   IN AAAA 2001:db8::11
+mail  IN A    192.0.2.12
+alias IN CNAME www.dns.mock.uptimepage.dev.

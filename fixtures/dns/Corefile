@@ -1,0 +1,5 @@
+dns.mock.uptimepage.dev:53 {
+    file /etc/coredns/db.zone
+    log
+    errors
+}
