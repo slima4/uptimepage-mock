@@ -1,7 +1,9 @@
 import brotliPayload from "./brotli_payload";
 
-// no-transform stops the Cloudflare edge from re-compressing an already-encoded
-// body, which would otherwise double-encode it under a single Content-Encoding.
+// The Cloudflare edge re-compresses compressible content-types, which would
+// double-encode an already-encoded body under a single Content-Encoding. Serving
+// it as application/octet-stream keeps the edge from touching it; no-transform is
+// belt-and-suspenders. The monitor decodes from Content-Encoding, not the type.
 const NO_TRANSFORM = "no-transform";
 
 // /gzip -> gzip-compressed body with Content-Encoding: gzip (decode path).
@@ -16,7 +18,7 @@ export function handleGzip(): Response {
   return new Response(stream, {
     headers: {
       "content-encoding": "gzip",
-      "content-type": "text/plain; charset=utf-8",
+      "content-type": "application/octet-stream",
       "cache-control": NO_TRANSFORM,
     },
   });
@@ -29,7 +31,7 @@ export function handleBrotli(): Response {
   return new Response(bytes, {
     headers: {
       "content-encoding": "br",
-      "content-type": "text/plain; charset=utf-8",
+      "content-type": "application/octet-stream",
       "cache-control": NO_TRANSFORM,
     },
   });
@@ -41,7 +43,7 @@ export function handleBadGzip(): Response {
   return new Response(garbage, {
     headers: {
       "content-encoding": "gzip",
-      "content-type": "text/plain",
+      "content-type": "application/octet-stream",
       "cache-control": NO_TRANSFORM,
     },
   });
