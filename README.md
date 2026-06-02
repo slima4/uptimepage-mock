@@ -64,7 +64,6 @@ A Worker only speaks HTTP, so these run as a Docker stack on a host with a publi
 - **DNS** — CoreDNS authoritative for a delegated sub-zone with A/AAAA/CNAME/MX/TXT records and a guaranteed `NXDOMAIN` name; point the monitor's custom resolver at it.
 - **Domain expiry** — cannot be faked; run that check against a real registered domain.
 
-## Deploy prerequisites
+## Deploy
 
-- `mock.uptimepage.dev` must be a Cloudflare-managed zone for the custom domain in `worker/wrangler.jsonc`. Until then, comment out the `routes` block and use the `*.workers.dev` URL.
-- GitHub repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` drive the deploy workflow.
+See [DEPLOY.md](DEPLOY.md). In short: set the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repo secrets and the Worker ships to `*.workers.dev` on push; the `mock.uptimepage.dev` custom domain and the fixture host are opt-in follow-ups.
