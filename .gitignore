@@ -5,3 +5,6 @@ dist/
 *.log
 .DS_Store
 fixtures/tls/certs/
+
+# Local-only specs (decision docs), never committed
+/specs/
