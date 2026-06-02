@@ -1,5 +1,7 @@
 # uptimepage-mock
 
+Live: **https://uptimepage-mock.slima4-u8.workers.dev**
+
 Deterministic mock endpoints for testing uptime monitors. Two parts:
 
 - **`worker/`** — a Cloudflare Worker serving the full HTTP/HTTPS scenario matrix at `mock.uptimepage.dev`. Free, edge-hosted, no rate limits you don't control.
