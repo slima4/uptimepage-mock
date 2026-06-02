@@ -7,6 +7,21 @@ cd fixtures
 docker compose up -d --build
 ```
 
+## Content encoding (`tls`, port 80)
+
+Served verbatim by nginx (`gzip off`) so the body keeps exactly the `Content-Encoding` set — the Cloudflare Worker cannot, since the edge re-compresses encoded bodies and cannot serve a corrupt one.
+
+| Path | Behaviour |
+|------|-----------|
+| `/gzip` | valid gzip body, `Content-Encoding: gzip` |
+| `/brotli` | valid brotli body, `Content-Encoding: br` |
+| `/bad-gzip` | `Content-Encoding: gzip` with garbage → decode failure |
+
+```bash
+curl -s --compressed http://HOST/gzip      # -> uptimepage-mock gzip ok
+curl -s -H 'Accept-Encoding: gzip' http://HOST/bad-gzip | gzip -dc   # -> decode error
+```
+
 ## TLS (`tls`, port 443)
 
 nginx serving certs regenerated on every start (so `expiring` is always `EXPIRING_DAYS` from now), selected by SNI. `valid`/`expiring`/`expired`/`wronghost` are signed by a local CA (`/certs/ca.crt` inside the container); `selfsigned` is a standalone self-signed leaf.

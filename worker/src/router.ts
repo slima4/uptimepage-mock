@@ -1,7 +1,6 @@
 import { handleAuth } from "./handlers/auth";
 import { handleBody, handleEcho, handleLarge } from "./handlers/body";
 import { handleDelay, handleSlowBody } from "./handlers/delay";
-import { handleBadGzip, handleBrotli, handleGzip } from "./handlers/encoding";
 import { handleFlap } from "./handlers/flap";
 import { handleHeaders, handleSetHeader } from "./handlers/headers";
 import { handleIndex } from "./handlers/index";
@@ -41,15 +40,6 @@ export async function route(req: Request): Promise<Response> {
       break;
     case "retry-after":
       res = handleRetryAfter(req, rest);
-      break;
-    case "gzip":
-      res = handleGzip();
-      break;
-    case "brotli":
-      res = handleBrotli();
-      break;
-    case "bad-gzip":
-      res = handleBadGzip();
       break;
     case "large":
       res = handleLarge(req);

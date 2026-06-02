@@ -4,9 +4,6 @@ const ENDPOINTS: [string, string][] = [
   ["/status/:code?body=TEXT", "status + body text"],
   ["/body?text=TEXT", "200 with given body (drive keyword match)"],
   ["/large?bytes=N", "stream N bytes (test body-size caps)"],
-  ["/gzip", "gzip-encoded body"],
-  ["/brotli", "brotli-encoded body"],
-  ["/bad-gzip", "Content-Encoding: gzip with garbage (decode failure)"],
   ["/redirect/:n", "chain of n redirect hops, then 200"],
   ["/redirect-to?url=ABS&status=30x", "single redirect to url with 301/302/303/307/308"],
   ["/delay/:secs", "wait secs (0-30) then 200"],
@@ -48,7 +45,7 @@ export function handleIndex(): Response {
 <table>
 ${rows}
 </table>
-<p>Protocol-level fixtures (TLS cert / TCP / DNS) live in the <a href="https://github.com/uptimepage/uptimepage-mock">repository</a>.</p>
+<p>Protocol-level fixtures (TLS cert / DNS / TCP) and the content-encoding endpoints (gzip / brotli / bad-gzip, which the edge cannot serve verbatim) live in the <a href="https://github.com/slima4/uptimepage-mock">repository</a>.</p>
 </body>
 </html>
 `;

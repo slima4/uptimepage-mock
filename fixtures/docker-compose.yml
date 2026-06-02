@@ -6,7 +6,8 @@ services:
     environment:
       EXPIRING_DAYS: "10" # within a typical warn(30)/critical(7) window -> Degraded
     ports:
-      - "443:443"
+      - "80:80" # content-encoding fixtures (/gzip, /brotli, /bad-gzip)
+      - "443:443" # TLS cert scenarios (per-SNI)
     restart: unless-stopped
 
   dns:

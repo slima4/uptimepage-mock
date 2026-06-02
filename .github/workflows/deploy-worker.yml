@@ -25,7 +25,6 @@ jobs:
           cache: pnpm
           cache-dependency-path: worker/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm gen
       # Gate the deploy on the same checks as CI.
       - run: pnpm lint
       - run: pnpm typecheck

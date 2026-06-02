@@ -27,8 +27,6 @@ pnpm deploy     # deploy (needs Cloudflare credentials)
 | `/status/:code?body=TEXT` | status with a body string |
 | `/body?text=TEXT` | 200 with the given body (drive keyword match) |
 | `/large?bytes=N` | stream N bytes (test body-size caps) |
-| `/gzip` `/brotli` | compressed body with matching `Content-Encoding` |
-| `/bad-gzip` | `Content-Encoding: gzip` with garbage (decode failure) |
 | `/redirect/:n` | chain of n hops, terminating in 200 |
 | `/redirect-to?url=ABS&status=30x` | single redirect (301/302/303/307/308) |
 | `/delay/:secs` | wait 0–30s then 200 |
@@ -43,6 +41,8 @@ pnpm deploy     # deploy (needs Cloudflare credentials)
 | `/flap?period=N` | alternate up/down every N seconds |
 | `/cors` | CORS marker (CORS headers are on every response) |
 | `/` | HTML index |
+
+Content-encoding endpoints (`/gzip`, `/brotli`, `/bad-gzip`) are **not** on the Worker — the Cloudflare edge re-compresses encoded bodies (double-encoding them) and cannot serve a deliberately corrupt one. They live in the fixture stack, served verbatim by nginx. See [`fixtures/README.md`](fixtures/README.md).
 
 ### Smoke check
 

@@ -96,32 +96,6 @@ describe("retry-after", () => {
   });
 });
 
-describe("encoding", () => {
-  it("gzip decodes to the expected text", async () => {
-    const r = await SELF.fetch(`${BASE}/gzip`);
-    expect(r.headers.get("content-encoding")).toBe("gzip");
-    const buf = await r.arrayBuffer();
-    const ds = new DecompressionStream("gzip");
-    const decoded = await new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
-    expect(decoded).toContain("gzip ok");
-  });
-
-  it("brotli advertises the br encoding", async () => {
-    const r = await SELF.fetch(`${BASE}/brotli`);
-    expect(r.headers.get("content-encoding")).toBe("br");
-  });
-
-  it("encoded responses set cache-control: no-transform", async () => {
-    const r = await SELF.fetch(`${BASE}/gzip`);
-    expect(r.headers.get("cache-control")).toBe("no-transform");
-  });
-
-  it("bad-gzip advertises gzip", async () => {
-    const r = await SELF.fetch(`${BASE}/bad-gzip`);
-    expect(r.headers.get("content-encoding")).toBe("gzip");
-  });
-});
-
 describe("delay", () => {
   it("returns 200 after a short delay", async () => {
     const r = await SELF.fetch(`${BASE}/delay/0`);
